@@ -1,0 +1,19 @@
+return {
+  name = "web_mysql_db",
+  version = "0.1.1",
+  db_mysql_port = {
+    host = "www.your-mysql-db.com",
+    port = 3306,
+    database = "your-database",
+    user = "db-user",
+    password = "db-password",
+    max_packet_size = 1024*1024*2,
+  },
+  db_mysql_sock = {
+    path = "/var/run/mysqld/mysqld.sock",
+    database = "your-database",
+    user = "db-user",
+    password = "db-password",
+    max_packet_size = 1024*1024*2,
+  },
+};
