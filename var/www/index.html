@@ -11,7 +11,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <style>
     body {background: #fff;margin: 0; padding: 20px; text-align:center; font-family:microsoft yahei, Arial, Helvetica, sans-serif; font-size:14px; color:#238efa;}
-    .music_set{
+    .radius_table {
       margin: auto;
       display: table;
       width: 100%;
@@ -21,11 +21,24 @@
       padding: 6px 6px;
       background-color: #fff;
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: right 8px center;
       border: 1px solid #ddd;
       border-radius: 8px;
       outline: none;
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+    }
+    .search_box {
+      display: table-cell;
+      width: 100%;
+      min-height: 15px;
+      border: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      box-shadow: none;
+      font-size: 13px;
+      vertical-align: middle;
+      border-radius: 3px;
+      outline: none;
     }
     .songs {
       min-height: 30px;
@@ -39,6 +52,9 @@
       border-radius: 4px;
       text-decoration: none;
       font-size: 20px;
+    }
+    .search_key {
+      background: #d0d0d0;
     }
     .controls {
       margin: 20px;
@@ -74,7 +90,14 @@
     <div class="device">
       <p id="device_id">设备地址</p>
     </div>
-    <div class="music_set" id="music_set">
+    <div class="search_div" style="margin: 0; padding: 20px; text-align:center;">
+      <div class="radius_table">
+        <form action="javascript:void(0);">
+          <input type="search" onsearch="baidu_search(this);" class="search_box" placeholder="搜索歌曲">
+        </form>
+      </div>
+    </div>
+    <div class="radius_table" id="music_set">
       <span class="songs" onclick="javascript:player_loadlist(this);void(0);" ref="http://www.ximalaya.com/40599028/sound/17014178">孟浩然-春晓</span>
     </div>
     <div class="controls">
@@ -126,6 +149,20 @@
       function player_forward() {
         var data = {cmd:"forward"};
         device_command(data);
+      }
+      function baidu_search(e) {
+        var keyword = e.value;
+        if(keyword == '' || keyword == null || keyword == undefined){
+          console.log("...");
+        }else{
+          var ref = "http://music.baidu.com/search?key=" + encodeURIComponent(keyword);
+          var data = {cmd:"loadlist", data_href:ref};
+          device_command(data);
+          e.value = "";
+          var set = $("#music_set");
+          var line = '<span class="songs search_key" onclick="javascript:player_loadlist(this);void(0);" ref="' + ref + '">' + keyword + '</span>'
+          set.prepend(line);
+        }
       }
     </script>
     <script type="text/javascript">
