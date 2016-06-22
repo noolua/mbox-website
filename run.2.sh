@@ -1,6 +1,6 @@
 #!/bin/sh
-VAR_PATH=/home/hscdn/mbox-website/var
-NGX_BIN=/home/hscdn/usr/local/openresty/nginx/sbin/nginx
+VAR_PATH=/var/run/mbox-website/var
+NGX_BIN=/opt/openresty/nginx/sbin/nginx
 
 case $1 in
   start)

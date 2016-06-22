@@ -9,6 +9,7 @@
     <meta http-equiv="imagetoolbar" content="no" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" id="font-awesome-css" href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" type="text/css" media="all">
     <style>
     body {background: #fff;margin: 0; padding: 20px; text-align:center; font-family:microsoft yahei, Arial, Helvetica, sans-serif; font-size:14px; color:#238efa;}
     .radius_table {
@@ -28,14 +29,13 @@
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
     }
     .search_box {
-      display: table-cell;
+      display: inline;
       width: 100%;
-      min-height: 15px;
       border: 0;
       padding-top: 0;
       padding-bottom: 0;
       box-shadow: none;
-      font-size: 13px;
+      font-size: 20px;
       vertical-align: middle;
       border-radius: 3px;
       outline: none;
@@ -69,6 +69,7 @@
     }
     .btn, .btn:visited {
       font-size: 20px;
+      min-width: 20px;
       margin: 10px;
       background: #2575cf repeat-x;
       display: inline-block;
@@ -93,7 +94,7 @@
     <div class="search_div" style="margin: 0; padding: 20px; text-align:center;">
       <div class="radius_table">
         <form action="javascript:void(0);">
-          <input type="search" onsearch="baidu_search(this);" class="search_box" placeholder="搜索歌曲">
+          <input type="search" onsearch="javascript:baidu_search(this);" class="search_box" placeholder="搜索歌曲">
         </form>
       </div>
     </div>
@@ -101,8 +102,10 @@
       <span class="songs" onclick="javascript:player_loadlist(this);void(0);" ref="http://www.ximalaya.com/40599028/sound/17014178">孟浩然-春晓</span>
     </div>
     <div class="controls">
-      <span class="btn" onclick="javascript:player_forward(this);void(0);">下一首</span>
-      <span class="btn" onclick="javascript:player_backward(this);void(0);">上一首</span>
+      <span class="btn" title="上一首" onclick="javascript:player_backward(this);void(0);"><i class="fa fa-step-backward"></i></span>
+      <span class="btn" title="下一首" onclick="javascript:player_forward(this);void(0);"><i class="fa fa-step-forward"></i></span>
+      <span class="btn" title="调低音量" onclick="javascript:player_volume(-10);void(0);"><i class="fa fa-volume-down"></i></span>
+      <span class="btn" title="调高音量" onclick="javascript:player_volume(10);void(0);"><i class="fa fa-volume-up"></i></span>
     </div>
     <div class="author">
       <p><br></p>
@@ -111,13 +114,13 @@
       <p><br></p>
       <p><br></p>
       <p><a href="help.html">帮助指南</a><p>
-      <p>作者微博:<a href="http://weibo.com/n/rockee阿木">@rockee阿木</a><p>
+      <p>作者微博:<a href="http://weibo.com/n/rockee阿木" target="_blank">@rockee阿木</a><p>
     </div>
     <script type="text/javascript" src="http://3gimg.qq.com/qq_product_operations/jslib/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="http://mbox.qiniudn.com/js/jquery.base64.min.js"></script>
     <script type="text/javascript">
       var dev_url_prefix = "http://localhost";
-      function device_command(data) {
+      function device_command(data, cb) {
         var url = dev_url_prefix + "/api/cmd.lua";
         $.ajax({
           url: url,
@@ -125,6 +128,9 @@
           dataType: "jsonp",
           data:data,
           success: function( response ) {
+            if (typeof cb === "function") {
+              cb(response);
+            }
             console.log( response );
           }
         });
@@ -133,6 +139,18 @@
         var ref = e.getAttribute("ref");
         var data = {cmd:"loadlist", data_href:ref};
         device_command(data);
+      }
+      function player_volume(delta) {
+        var data = {cmd:"volume-get"};
+        device_command(data, function(resp){
+          volume = parseInt(resp.volume);
+          if(resp.error == 0 && 0 <= volume && volume <= 100){
+            volume = volume + delta;
+            volume = Math.min(volume, 100);
+            volume = Math.max(0, volume);
+            device_command({cmd:"volume-set", volume:volume});
+          }
+        });
       }
       function player_pause() {
         var data = {cmd:"pause"};
@@ -153,7 +171,6 @@
       function baidu_search(e) {
         var keyword = e.value;
         if(keyword == '' || keyword == null || keyword == undefined){
-          console.log("...");
         }else{
           var ref = "http://music.baidu.com/search?key=" + encodeURIComponent(keyword);
           var data = {cmd:"loadlist", data_href:ref};
