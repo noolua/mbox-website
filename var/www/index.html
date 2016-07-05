@@ -94,7 +94,7 @@
     <div class="search_div" style="margin: 0; padding: 20px; text-align:center;">
       <div class="radius_table">
         <form action="javascript:void(0);">
-          <input type="search" onsearch="javascript:baidu_search(this);" class="search_box" placeholder="搜索歌曲">
+          <input type="search" onsearch="javascript:qq_search(this);" class="search_box" placeholder="搜索歌曲">
         </form>
       </div>
     </div>
@@ -168,11 +168,11 @@
         var data = {cmd:"forward"};
         device_command(data);
       }
-      function baidu_search(e) {
+      function qq_search(e) {
         var keyword = e.value;
         if(keyword == '' || keyword == null || keyword == undefined){
         }else{
-          var ref = "http://music.baidu.com/search?key=" + encodeURIComponent(keyword);
+          var ref = "http://y.qq.com/search/" + encodeURIComponent(keyword);
           var data = {cmd:"loadlist", data_href:ref};
           device_command(data);
           e.value = "";
@@ -221,18 +221,19 @@
         });
         // fill songs
         var songs = '[\
-        {"name":"百度热歌榜", "ref":"http://music.baidu.com/top/dayhot"},\
-        {"name":"刘珂矣", "ref":"http://music.baidu.com/search?key=%E5%88%98%E7%8F%82%E7%9F%A3"},\
-        {"name":"Secret Garden", "ref":"http://music.baidu.com/artist/177878"},\
-        {"name":"Maroon 5", "ref":"http://music.baidu.com/artist/55191"},\
-        {"name":"华语老情歌的韵味", "ref":"http://music.baidu.com/songlist/6693?pst=songlist"},\
-        {"name":"安静时想听的小曲儿~", "ref":"http://music.baidu.com/songlist/6688?pst=songlist"},\
-        {"name":"难以忘怀的最爱", "ref":"http://music.baidu.com/songlist/1798"},\
-        {"name":"每人一首成名曲", "ref":"http://music.baidu.com/songlist/1892?pst=songlist"},\
-        {"name":"大王叫我来巡山", "ref":"http://music.baidu.com/song/260373713?fm=altg_new3"},\
-        {"name":"做最棒的自己", "ref":"http://www.ximalaya.com/18522984/album/2950984"},\
-        {"name":"猫咪妈妈电台-古琴", "ref":"http://www.ximalaya.com/17924722/album/339845"},\
-        {"name":"朱汐的专辑", "ref":"http://www.ximalaya.com/5773580/album/1742536"},\
+        {"name":"汽车Hi-Fi音乐", "ref":"http://y.qq.com/#type=album&mid=0031q0WV3ICQ2w"},\
+        {"name":"刘珂矣", "ref":"http://y.qq.com/search/刘珂矣"},\
+        {"name":"这就是命", "ref":"http://y.qq.com/#type=album&mid=0017J2os0nCc6C"},\
+        {"name":"靓声天后", "ref":"http://y.qq.com/#type=album&mid=000sLopW2OIw67"},\
+        {"name":"靓声天王", "ref":"http://y.qq.com/#type=album&mid=000t41zd4UmN5r"},\
+        {"name":"逆光", "ref":"http://y.qq.com/#type=album&mid=000P3l050Olt27"},\
+        {"name":"莫文蔚", "ref":"http://y.qq.com/search/莫文蔚"},\
+        {"name":"一人一首成名曲《男人篇》", "ref":"http://y.qq.com/#type=album&mid=002rAo5i2kyWmk"},\
+        {"name":"大王叫我来巡山", "ref":"http://y.qq.com/search/大王叫我来巡山"},\
+        {"name":"一人一首成名曲第四辑", "ref":"http://y.qq.com/#type=album&mid=001mPqk84K1IcF"},\
+        {"name":"Secret Garden (神秘园)", "ref":"http://y.qq.com/#type=singer&mid=001wCSAg4QBTJo"},\
+        {"name":"张靓颖", "ref":"http://y.qq.com/search/张靓颖"},\
+        {"name":"曲婉婷", "ref":"http://y.qq.com/search/曲婉婷"},\
         {"name":"孟浩然-春晓", "ref":"http://www.ximalaya.com/40599028/sound/17014178"},\
         {"name":"文天祥-端午即事", "ref":"http://www.ximalaya.com/40599028/sound/16817007"},\
         {"name":"婷婷诗教-王之涣-登鹳雀楼", "ref":"http://www.ximalaya.com/40599028/sound/16615963"},\
