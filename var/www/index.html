@@ -121,7 +121,7 @@
     <script type="text/javascript">
       var dev_url_prefix = "http://localhost";
       function device_command(data, cb) {
-        var url = dev_url_prefix + "/api/cmd.lua";
+        var url = dev_url_prefix + "/api/cmd";
         $.ajax({
           url: url,
           jsonp: "jsoncallback",
@@ -185,7 +185,7 @@
     <script type="text/javascript">
       $(function(){
         function ping_device(url){
-          var ping_url = url + "/api/cmd.lua";
+          var ping_url = url + "/api/cmd";
           var data = {cmd:"ping"};
           $.ajax({
             url: ping_url,
